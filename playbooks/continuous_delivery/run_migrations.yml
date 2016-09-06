@@ -55,7 +55,7 @@
     when: APPLICATION_NAME != "edxapp"
 
   - name: generate list of edxapp unapplied migrations
-    shell: '{{ COMMAND_PREFIX }} {{ SUB_APPLICATION_NAME }} show_unapplied_migrations --database "{{ item }}" --output_file "{{ temp_output_dir.stdout }}/{{ unapplied_migrations_output }}" --settings "{{ EDX_PLATFORM_SETTINGS }}"'
+    shell: '{{ COMMAND_PREFIX }} {{ SUB_APPLICATION_NAME }} show_unapplied_migrations --database "{{ item }}" --output_file "{{ temp_output_dir.stdout }}/{{ item }}_{{ unapplied_migrations_output }}" --settings "{{ EDX_PLATFORM_SETTINGS }}"'
     become_user: "{{ APPLICATION_USER }}"
     when: APPLICATION_NAME == "edxapp" and item != "read_replica"
     with_items: edxapp_databases.keys()
@@ -66,7 +66,7 @@
     when: APPLICATION_NAME != "edxapp"
 
   - name: migrate to apply any edxapp unapplied migrations
-    shell: '{{ COMMAND_PREFIX }} {{ SUB_APPLICATION_NAME }} run_migrations "{{ temp_output_dir.stdout }}/{{ unapplied_migrations_output }}" --database "{{ item }}" --settings "{{ EDX_PLATFORM_SETTINGS }}" --output_file "{{ temp_output_dir.stdout }}/{{ migration_output }}"'
+    shell: '{{ COMMAND_PREFIX }} {{ SUB_APPLICATION_NAME }} run_migrations "{{ temp_output_dir.stdout }}/{{ item }}_{{ unapplied_migrations_output }}" --database "{{ item }}" --settings "{{ EDX_PLATFORM_SETTINGS }}" --output_file "{{ temp_output_dir.stdout }}/{{ migration_output }}"'
     become_user: "{{ APPLICATION_USER }}"
     when: APPLICATION_NAME == "edxapp" and item != "read_replica"
     with_items: edxapp_databases.keys()
