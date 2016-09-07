@@ -83,7 +83,7 @@
       fail_on_missing: True
       mode: 0700
     with_items:
-      - "{{ migration_files.stdout }}"
+      - "{{ migration_files.stdout_lines }}"
 
   - name: Send Hipchat notification cleanup has finished
     hipchat_2_0_0_1:
