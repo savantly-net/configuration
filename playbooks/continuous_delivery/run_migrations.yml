@@ -71,6 +71,10 @@
     when: APPLICATION_NAME == "edxapp" and item != "read_replica"
     with_items: edxapp_databases.keys()
 
+  - name: List all migration files
+    action: "command ls -1 {{ temp_output_dir.stdout }}"
+    register: migraion_files
+
   - name: Transfer artifacts to the proper place.
     fetch:
       src: "{{ temp_output_dir.stdout }}/{{ item }}"
@@ -79,8 +83,7 @@
       fail_on_missing: True
       mode: 0700
     with_items:
-      - "*{{ unapplied_migrations_output }}"
-      - "{{ migration_output }}"
+      - "{{ migration_files.stdout }}"
 
   - name: Send Hipchat notification cleanup has finished
     hipchat_2_0_0_1:
