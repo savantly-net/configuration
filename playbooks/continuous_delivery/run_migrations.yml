@@ -73,7 +73,7 @@
 
   - name: List all migration files
     action: "command ls -1 {{ temp_output_dir.stdout }}"
-    register: migraion_files
+    register: migration_files
 
   - name: Transfer artifacts to the proper place.
     fetch:
