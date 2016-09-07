@@ -79,7 +79,7 @@
       fail_on_missing: True
       mode: 0700
     with_items:
-      - "{{ unapplied_migrations_output }}"
+      - "*{{ unapplied_migrations_output }}"
       - "{{ migration_output }}"
 
   - name: Send Hipchat notification cleanup has finished
